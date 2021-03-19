@@ -184,15 +184,17 @@ function extractKeyframes(fileObject, dimensions = {}) {
 		
 												framesGenerated += 1;
 												debug('FG:', framesGenerated, 'FI:', framesIdentified, 'FT:', frameTime);
-		
+												let image;
+												try { image = fs.readFileSync( completeOutputFilepath ) } catch {};
+												
 												const details = {
 													keyframeTimeoffset : Number(frameTime),
-													image : fs.readFileSync( completeOutputFilepath )
+													image 
 												};
 		
 												debug('>>>', details.keyframeTimeoffset);
 		
-												emitter.emit('keyframe', details);
+												if(image) emitter.emit('keyframe', details);
 												
 												debug(`finishedLooking: ${finishedLooking} framesIdentified: ${framesIdentified} framesGenerated: ${framesGenerated} EQ: ${framesIdentified === framesGenerated}`);
 
